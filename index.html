@@ -604,7 +604,7 @@ p { margin: 0; }
           <h2 id="titre-matelas">Nos matelas</h2>
           <p class="intro">Ressorts, mémoire de forme, ferme ou moelleux : tous sont à essayer au magasin.</p>
         </div>
-        <a class="lien-fleche" href="matelas.html">Voir les 7 matelas</a>
+        <a class="lien-fleche" href="matelas.html">Voir les 8 matelas</a>
       </div>
       <div class="grille-produits">
         <article class="produit">
@@ -638,8 +638,8 @@ p { margin: 0; }
           <div class="produit__image"><img src="https://www.mondial-literie.fr/126-home_default/alpha.jpg" alt="" width="289" height="199" loading="lazy"></div>
           <div class="produit__corps">
             <h3 class="produit__nom"><a href="matelas.html#alpha">Matelas Alpha</a></h3>
-            <p class="produit__accroche">Un renfort lombaire ciblé, pensé pour ceux qui veulent protéger leur dos.</p>
-            <ul class="produit__specs"><li>Renfort lombaire</li><li>Fibre de coco</li></ul>
+            <p class="produit__accroche">Un soutien très ferme avec renfort lombaire ciblé, pensé pour protéger le dos.</p>
+            <ul class="produit__specs"><li>Très ferme</li><li>Renfort lombaire</li></ul>
             <div class="produit__prix"><span class="prix">999&nbsp;€</span><span class="prix-mention">en 140 x 190</span></div>
           </div>
         </article>
@@ -957,36 +957,63 @@ p { margin: 0; }
       helios:  { nom: "Matelas Hélios",  lien: "matelas-helios.html", img: IMG + "79-home_default/helios.jpg",  prix: "dès 1 599 €", pourquoi: "Accueil souple et soutien ferme, ressorts ensachés" },
       pulsar:  { nom: "Matelas Pulsar",  lien: "matelas.html#pulsar",  img: IMG + "72-home_default/pulsar.jpg",  prix: "dès 1 099 €", pourquoi: "Ressorts 7 zones, soutien ferme" },
       theia:   { nom: "Matelas Theïa",   lien: "matelas.html#theia",   img: IMG + "73-home_default/theia.jpg",   prix: "dès 1 099 €", pourquoi: "Mémoire de forme et ressorts souples, accueil enveloppant" },
-      alpha:   { nom: "Matelas Alpha",   lien: "matelas.html#alpha",   img: IMG + "126-home_default/alpha.jpg",  prix: "dès 999 €",   pourquoi: "Renfort lombaire ciblé" },
+      alpha:   { nom: "Matelas Alpha",   lien: "matelas.html#alpha",   img: IMG + "126-home_default/alpha.jpg",  prix: "dès 999 €",   pourquoi: "Très ferme, avec renfort lombaire ciblé" },
+      orion:   { nom: "Matelas Orion",   lien: "matelas.html#orion",   img: IMG + "128-home_default/alpha.jpg",  prix: "dès 999 €",   pourquoi: "Ressorts et mousse, confort équilibré" },
       venus:   { nom: "Matelas Vénus",   lien: "matelas.html#venus",   img: IMG + "88-home_default/matelas-venus.jpg",   prix: "dès 805 €", pourquoi: "Soutien tonique, en moelleux, medium ou ferme" },
       jupiter: { nom: "Matelas Jupiter", lien: "matelas.html#jupiter", img: IMG + "89-home_default/matelas-jupiter.jpg", prix: "dès 805 €", pourquoi: "Soutien moelleux, effet nuage" }
     };
-    // Points attribués à chaque matelas selon les réponses
+    // Fermeté : 1 = moelleux, 2 = équilibré / medium, 3 = ferme.
+    // "niveaux" = versions dans lesquelles le matelas existe ; "principal" = son confort de référence.
+    var FERMETE = {
+      theia:   { niveaux: [1],       principal: 1 },
+      jupiter: { niveaux: [1, 2],    principal: 1 },
+      venus:   { niveaux: [1, 2, 3], principal: 2 },
+      alpha:   { niveaux: [3],       principal: 3 },
+      orion:   { niveaux: [2],       principal: 2 },
+      helios:  { niveaux: [2, 3],    principal: 3 },
+      pulsar:  { niveaux: [3],       principal: 3 }
+    };
+    var CIBLE = { moelleux: 1, equilibre: 2, ferme: 3 };
+    var VERSION = { 1: "moelleuse", 2: "medium", 3: "ferme" };
+    // Points complémentaires selon la position et la gêne (départagent les matelas compatibles)
     var POINTS = {
       position: {
-        dos:     { alpha: 2, helios: 2, pulsar: 1, venus: 1 },
-        cote:    { theia: 3, jupiter: 2, helios: 1 },
-        ventre:  { pulsar: 3, alpha: 1, venus: 1 },
-        change:  { helios: 2, venus: 2, theia: 1 }
+        dos:     { alpha: 2, helios: 2, orion: 2, pulsar: 1, venus: 1 },
+        cote:    { theia: 2, jupiter: 2, orion: 1, helios: 1, venus: 1 },
+        ventre:  { pulsar: 2, alpha: 1, venus: 1 },
+        change:  { helios: 2, venus: 2, orion: 2, theia: 1 }
       },
       gene: {
-        dos:      { alpha: 3, pulsar: 2, helios: 1 },
-        chaleur:  { helios: 3, pulsar: 1, theia: 1, alpha: 1 },
+        dos:        { alpha: 3, pulsar: 2, helios: 1 },
+        chaleur:    { helios: 3, pulsar: 1, theia: 1, alpha: 1 },
         partenaire: { helios: 3, pulsar: 1, theia: 1 },
-        confort:  { helios: 1, venus: 1, jupiter: 1, theia: 1 }
-      },
-      sensation: {
-        ferme:      { pulsar: 3, alpha: 2, helios: 2, venus: 1 },
-        equilibre:  { venus: 3, helios: 2, alpha: 1 },
-        moelleux:   { theia: 3, jupiter: 3 }
+        confort:    { helios: 1, venus: 1, orion: 1, jupiter: 1, theia: 1 }
       }
     };
     var CONSEILS = {
       cote: "Sur le côté, un accueil plus souple laisse l'épaule et la hanche s'enfoncer légèrement.",
-      ventre: "Sur le ventre, un soutien ferme évite que le bassin ne s'affaisse.",
+      ventre: "Sur le ventre, un bon soutien évite que le bassin ne s'affaisse.",
       dos: "Sur le dos, un bon maintien du creux des reins est la priorité.",
-      change: "Si vous changez souvent de position, visez un confort polyvalent, ni trop ferme ni trop souple."
+      change: "Si vous changez souvent de position, un confort polyvalent vous facilitera les mouvements."
     };
+    var NUANCES = {
+      "ventre-1": " Attention : sur le ventre, un matelas très moelleux peut creuser le dos. Essayez aussi une version medium.",
+      "cote-3": " Attention : sur le côté, un matelas très ferme peut appuyer sur l'épaule. Comparez avec une version plus souple."
+    };
+
+    function suggerer(reponses) {
+      var cible = CIBLE[reponses.sensation];
+      var scores = {};
+      Object.keys(FERMETE).forEach(function (cle) {
+        var f = FERMETE[cle];
+        if (f.niveaux.indexOf(cible) === -1) return; // incompatible avec la sensation demandée
+        var score = f.principal === cible ? 3 : (f.niveaux.length > 2 ? 1 : 2);
+        score += (POINTS.position[reponses.position] || {})[cle] || 0;
+        score += (POINTS.gene[reponses.gene] || {})[cle] || 0;
+        scores[cle] = score;
+      });
+      return Object.keys(scores).sort(function (a, b) { return scores[b] - scores[a]; }).slice(0, 2);
+    }
 
     var resultat = document.getElementById("guide-resultat");
     var aide = guide.querySelector(".guide__aide");
@@ -999,21 +1026,18 @@ p { margin: 0; }
         aide.textContent = "Répondez aux 3 questions pour voir nos conseils.";
         return;
       }
-      var scores = {};
-      Object.keys(reponses).forEach(function (q) {
-        var pts = POINTS[q][reponses[q]] || {};
-        Object.keys(pts).forEach(function (m) { scores[m] = (scores[m] || 0) + pts[m]; });
-      });
-      var classement = Object.keys(scores).sort(function (a, b) { return scores[b] - scores[a]; }).slice(0, 2);
+      var cible = CIBLE[reponses.sensation];
+      var classement = suggerer(reponses);
       var cartes = classement.map(function (cle) {
         var m = MATELAS[cle];
+        var nom = m.nom + ((cle === "venus" || cle === "jupiter") ? ", version " + VERSION[cible] : "");
         return '<a class="reco" href="' + m.lien + '"><img src="' + m.img + '" alt="" width="96" height="66" loading="lazy">' +
-          '<div><strong>' + m.nom + '</strong><span>' + m.pourquoi + '</span><br><span>' + m.prix + '</span></div></a>';
+          '<div><strong>' + nom + '</strong><span>' + m.pourquoi + '</span><br><span>' + m.prix + '</span></div></a>';
       }).join("");
       resultat.innerHTML =
         '<div class="resultat">' +
           '<h3>Nos deux suggestions pour vous</h3>' +
-          '<p class="intro">' + CONSEILS[reponses.position] + ' Le mieux reste de les comparer allongé : venez les essayer au magasin, un conseiller affinera avec vous.</p>' +
+          '<p class="intro">' + CONSEILS[reponses.position] + (NUANCES[reponses.position + "-" + cible] || "") + ' Le mieux reste de les comparer allongé : venez les essayer au magasin, un conseiller affinera avec vous.</p>' +
           '<div class="resultat__produits">' + cartes + '</div>' +
           '<div class="heros__actions">' +
             '<a class="btn btn--etoile" href="https://www.google.com/maps/search/?api=1&query=Mondial+Literie+Chinon&query_place_id=ChIJGQJpkeFB_UcRWI64xJ6NoHA" target="_blank" rel="noopener">Venir les essayer</a>' +
