@@ -516,12 +516,145 @@ p { margin: 0; }
   .fiche__visuel { position: static; aspect-ratio: 4 / 3; }
 }
 
+/* ---------- Panier : icône d'en-tête ---------- */
+.entete__panier {
+  position: relative; flex: none;
+  display: inline-grid; place-items: center; width: 48px; height: 48px;
+  border-radius: 10px; border: 2px solid var(--trait); color: var(--nuit);
+}
+.entete__panier:hover { border-color: var(--nuit); }
+.entete__panier svg { width: 24px; height: 24px; }
+.entete__compte {
+  position: absolute; top: -8px; right: -8px;
+  min-width: 22px; height: 22px; padding: 0 6px; border-radius: 999px;
+  display: grid; place-items: center;
+  background: var(--etoile); color: var(--nuit); font-size: .8rem; font-weight: 800;
+}
+.entete__compte[hidden] { display: none; }
+@media (max-width: 980px) {
+  .entete__panier { margin-left: auto; }
+  .entete__menu { margin-left: 0; }
+}
+
+/* ---------- Pack matelas + sommier ---------- */
+.pastille-offre {
+  display: inline-block; margin-left: 6px; padding: 2px 10px; border-radius: 999px;
+  background: var(--etoile); color: var(--nuit); font-size: .85rem; font-weight: 700; vertical-align: middle;
+}
+.sommiers__liste { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.sommier {
+  position: relative; display: grid; align-content: start; gap: 8px; cursor: pointer;
+  padding: 10px; border-radius: 12px; border: 2px solid var(--trait); background: var(--blanc);
+}
+.sommier:hover { border-color: var(--nuit); }
+.sommier input { position: absolute; opacity: 0; pointer-events: none; }
+.sommier:has(input:checked) { border-color: var(--nuit); background: var(--drap); }
+.sommier:has(input:focus-visible) { outline: 3px solid var(--etoile); outline-offset: 2px; }
+.sommier img { width: 100%; aspect-ratio: 289 / 199; object-fit: cover; border-radius: 8px; background: var(--blanc); }
+.sommier__texte { display: grid; gap: 2px; font-size: .95rem; line-height: 1.3; }
+.sommier__texte strong { color: var(--nuit); font-size: 1rem; }
+.sommier__texte span { color: var(--ardoise); }
+.sommier__prix { font-weight: 700; color: var(--nuit) !important; }
+.sommier.est-indisponible { opacity: .5; cursor: not-allowed; }
+.sommier.est-indisponible:hover { border-color: var(--trait); }
+@media (max-width: 560px) {
+  .sommiers__liste { grid-template-columns: minmax(0, 1fr); }
+  .sommier { grid-template-columns: 96px minmax(0, 1fr); align-items: center; }
+  .sommier img { width: 96px; }
+  .sommier:first-child { grid-template-columns: minmax(0, 1fr); }
+}
+
+.recap { display: grid; gap: 10px; }
+.incitation {
+  margin: 0; padding: 12px 16px; border-radius: 10px;
+  background: #fff5d1; border-left: 4px solid var(--etoile); font-size: 1rem;
+}
+.incitation strong { color: var(--nuit); }
+.pack { border: 2px solid var(--nuit); border-radius: var(--r-m); overflow: hidden; background: var(--blanc); }
+.pack__economie {
+  margin: 0; padding: 12px 18px; background: var(--etoile); color: var(--nuit);
+  font-weight: 700; font-size: 1.1rem;
+}
+.pack__economie strong { font-size: 1.5rem; font-weight: 800; margin-left: 4px; }
+.pack__lignes { list-style: none; margin: 0; padding: 4px 0; }
+.pack__lignes li {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 9px 18px; font-size: 1rem; border-bottom: 1px solid var(--trait);
+}
+.pack__lignes li:last-child { border-bottom: 0; }
+.pack__lignes li span:last-child { white-space: nowrap; font-weight: 600; }
+.pack__remise span:last-child, .pack__offert span:last-child { color: var(--ouvert); font-weight: 800 !important; }
+.pack__lignes s, .pack__total s { color: var(--ardoise); font-weight: 500; margin-right: 6px; }
+.pack__total {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  padding: 14px 18px; background: var(--drap); font-weight: 700; color: var(--nuit);
+}
+.pack__total .prix { font-size: 2rem; }
+.pack__lignes--simple li { padding-left: 0; padding-right: 0; }
+
+.ajout-ok {
+  padding: 12px 16px; border-radius: 10px; background: #e3f3ea; color: var(--ouvert); font-weight: 700;
+}
+.ajout-ok a { color: var(--ouvert); margin-left: 6px; }
+
+/* ---------- Page panier ---------- */
+.panier { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 48px); align-items: start; }
+.panier__articles { display: grid; gap: 16px; }
+.article-panier {
+  display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 20px; align-items: start;
+  padding: 18px; border: 1px solid var(--trait); border-radius: var(--r-m); background: var(--blanc);
+}
+.article-panier img { width: 150px; aspect-ratio: 289 / 199; object-fit: cover; border-radius: 10px; }
+.article-panier__corps { display: grid; gap: 8px; }
+.h3 { font-size: 1.25rem; font-weight: 700; }
+.article-panier__pied { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.lien-bouton {
+  background: none; border: 0; padding: 4px 0; font: inherit; font-size: .95rem;
+  color: var(--ardoise); text-decoration: underline; cursor: pointer;
+}
+.lien-bouton:hover { color: var(--ferme); }
+.resume {
+  position: sticky; top: 100px; display: grid; gap: 16px;
+  padding: 22px; border-radius: var(--r-m); background: var(--drap);
+}
+.resume h2 { font-size: 1.4rem; }
+.resume__lignes { margin: 0; display: grid; gap: 0; }
+.resume__lignes div { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--trait); }
+.resume__lignes dt { color: var(--ardoise); }
+.resume__lignes dd { margin: 0; font-weight: 700; white-space: nowrap; }
+.resume__lignes .resume__remise dd { color: var(--ouvert); }
+.resume__total { display: flex; justify-content: space-between; align-items: baseline; font-weight: 800; color: var(--nuit); }
+.resume__total .prix { font-size: 2rem; }
+.resume__economie {
+  margin: 0; padding: 12px 16px; border-radius: 10px; background: var(--etoile); color: var(--nuit); font-weight: 700;
+}
+.resume__economie strong { font-size: 1.35rem; margin-left: 4px; }
+.resume__note { font-size: .95rem; color: var(--ardoise); }
+.panier-vide { display: grid; gap: 16px; justify-items: start; padding: 32px; border: 1px dashed var(--trait); border-radius: var(--r-m); }
+@media (max-width: 860px) {
+  .panier { grid-template-columns: minmax(0, 1fr); }
+  .resume { position: static; }
+}
+@media (max-width: 520px) {
+  .article-panier { grid-template-columns: minmax(0, 1fr); }
+  .article-panier img { width: 100%; }
+}
+.encart-pack {
+  margin: 4px 0 0; padding: 12px 16px; border-radius: 10px; max-width: 72ch;
+  background: #fff5d1; border-left: 4px solid var(--etoile); font-size: 1rem;
+}
+.encart-pack strong { color: var(--nuit); }
+.encart-pack a { font-weight: 700; margin-left: 4px; }
+
+[hidden] { display: none !important; }
+
 </style>
 </head>
 <body>
 
 <div class="bandeau">
   <ul>
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg>Pack matelas + sommier : -10&nbsp;% et 2 oreillers offerts</li>
     <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11v9H3z"/><path d="M14 9h4l3 3v3h-7"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>Livraison et installation offertes</li>
     <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5.3"/><path d="M18 3v4h-4"/><path d="M20 12a8 8 0 0 1-14 5.3"/><path d="M6 21v-4h4"/></svg>Reprise de votre ancienne literie</li>
     <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/><path d="M7 15h4"/></svg>Paiement en plusieurs fois</li>
@@ -541,6 +674,7 @@ p { margin: 0; }
       </ul>
     </nav>
     <a class="entete__tel" href="tel:+33765810869"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>07 65 81 08 69</a>
+    <a class="entete__panier" href="panier.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="sr-only">Panier</span><span class="entete__compte" data-panier-compte hidden>0</span></a>
     <button class="entete__menu" type="button" aria-expanded="false" aria-controls="nav-principale"><span class="sr-only">Menu</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   </div>
 </header>
@@ -933,20 +1067,196 @@ p { margin: 0; }
     });
   }
 
-  /* ---------- Choix de la taille (fiche produit) ---------- */
-  var tailles = document.querySelectorAll('input[name="taille"]');
-  if (tailles.length) {
-    var majTaille = function () {
-      var choisi = document.querySelector('input[name="taille"]:checked');
-      if (!choisi) return;
-      var prix = choisi.getAttribute("data-prix");
-      document.querySelectorAll("[data-prix-affiche]").forEach(function (el) { el.textContent = prix; });
-      document.querySelectorAll("[data-taille-affichee]").forEach(function (el) { el.textContent = choisi.value; });
-      var lien = document.querySelector("[data-commander]");
-      if (lien) lien.href = choisi.getAttribute("data-url");
+  /* ---------- Outils prix ---------- */
+  function euros(n) {
+    var entier = Math.round(n * 100) % 100 === 0;
+    return new Intl.NumberFormat("fr-FR", {
+      style: "currency", currency: "EUR",
+      minimumFractionDigits: entier ? 0 : 2, maximumFractionDigits: 2
+    }).format(n);
+  }
+  function arrondi(n) { return Math.round(n * 100) / 100; }
+
+  /* ---------- Panier (conservé dans le navigateur) ---------- */
+  var CLE_PANIER = "mlc-panier";
+  var panierMemoire = [];
+  function lirePanier() {
+    try { return JSON.parse(localStorage.getItem(CLE_PANIER) || "[]"); } catch (e) { return panierMemoire; }
+  }
+  function ecrirePanier(liste) {
+    panierMemoire = liste;
+    try { localStorage.setItem(CLE_PANIER, JSON.stringify(liste)); } catch (e) { /* stockage indisponible */ }
+    majCompteur();
+  }
+  function majCompteur() {
+    var n = lirePanier().length;
+    document.querySelectorAll("[data-panier-compte]").forEach(function (el) {
+      el.textContent = n;
+      el.hidden = n === 0;
+    });
+  }
+  majCompteur();
+
+  /* ---------- Offre pack matelas + sommier ---------- */
+  // Prix repris du site actuel. Valeur des oreillers : à remplacer par le prix de vente du magasin.
+  var REMISE_PACK = 0.10;
+  var OREILLERS = { libelle: "2 oreillers Cervisco de GAM de Laine", quantite: 2, prixUnitaire: 87 };
+  var SOMMIERS = {
+    tapissier: { nom: "Sommier tapissier Déco", prix: 249, tailles: { "140 x 190": "140 x 190", "160 x 200": "160 x 200" } },
+    moderna:   { nom: "Sommier relaxation Moderna", prix: 1799, tailles: { "140 x 190": "2 x 70 x 190", "160 x 200": "2 x 80 x 200", "180 x 200": "2 x 90 x 200" } }
+  };
+
+  function calculer(prixMatelas, taille, cleSommier) {
+    var r = { lignes: [{ libelle: "Matelas Hélios " + taille, prix: prixMatelas }], remise: 0, offerts: [], separes: prixMatelas, total: prixMatelas, economie: 0 };
+    var s = SOMMIERS[cleSommier];
+    if (s && s.tailles[taille]) {
+      r.lignes.push({ libelle: s.nom + " " + s.tailles[taille], prix: s.prix });
+      r.separes = prixMatelas + s.prix;
+      r.remise = arrondi(r.separes * REMISE_PACK);
+      r.total = arrondi(r.separes - r.remise);
+      var valeur = OREILLERS.quantite * OREILLERS.prixUnitaire;
+      r.offerts.push({ libelle: OREILLERS.libelle, valeur: valeur });
+      r.economie = arrondi(r.remise + valeur);
+    }
+    return r;
+  }
+
+  var pack = document.querySelector("[data-pack]");
+  if (pack) {
+    var recap = document.querySelector("[data-recap]");
+    var dernierCalcul = null;
+
+    var maj = function () {
+      var t = document.querySelector('input[name="taille"]:checked');
+      var taille = t.value, prixMatelas = parseFloat(t.getAttribute("data-prix-num"));
+      // sommiers disponibles dans cette taille
+      Object.keys(SOMMIERS).forEach(function (cle) {
+        var label = pack.querySelector('[data-sommier="' + cle + '"]');
+        var input = label.querySelector("input");
+        var dispo = !!SOMMIERS[cle].tailles[taille];
+        input.disabled = !dispo;
+        label.classList.toggle("est-indisponible", !dispo);
+        label.querySelector("[data-sommier-taille]").textContent = dispo ? SOMMIERS[cle].tailles[taille] : "Non disponible en " + taille;
+        if (!dispo && input.checked) pack.querySelector('input[value="aucun"]').checked = true;
+      });
+      var cleSommier = pack.querySelector('input[name="sommier"]:checked').value;
+      var c = calculer(prixMatelas, taille, cleSommier);
+      dernierCalcul = { taille: taille, cleSommier: cleSommier, calcul: c };
+
+      if (c.remise === 0) {
+        // meilleure économie possible avec un sommier, pour inciter
+        var meilleure = 0;
+        Object.keys(SOMMIERS).forEach(function (cle) {
+          var essai = calculer(prixMatelas, taille, cle);
+          if (essai.economie > meilleure) meilleure = essai.economie;
+        });
+        recap.innerHTML =
+          '<div class="fiche__prix"><span class="prix">' + euros(c.total) + '</span>' +
+          '<span class="prix-mention">Matelas seul, en ' + taille + '. Paiement en plusieurs fois possible.</span></div>' +
+          '<p class="incitation">Ajoutez un sommier : <strong>jusqu\'à ' + euros(meilleure) + ' d\'économie</strong> avec le pack, oreillers compris.</p>';
+      } else {
+        recap.innerHTML =
+          '<div class="pack">' +
+            '<p class="pack__economie">Vous économisez <strong>' + euros(c.economie) + '</strong></p>' +
+            '<ul class="pack__lignes">' +
+              c.lignes.map(function (l) { return '<li><span>' + l.libelle + '</span><span>' + euros(l.prix) + '</span></li>'; }).join("") +
+              '<li class="pack__remise"><span>Remise pack -10 %</span><span>-' + euros(c.remise) + '</span></li>' +
+              c.offerts.map(function (o) { return '<li class="pack__offert"><span>' + o.libelle + '</span><span><s>' + euros(o.valeur) + '</s> Offerts</span></li>'; }).join("") +
+            '</ul>' +
+            '<div class="pack__total"><span>Prix du pack</span><span><s>' + euros(c.separes) + '</s> <strong class="prix">' + euros(c.total) + '</strong></span></div>' +
+          '</div>' +
+          '<p class="prix-mention">Paiement en plusieurs fois possible. Remise de 10 % appliquée sur le matelas et le sommier achetés ensemble.</p>';
+      }
+      document.querySelectorAll("[data-prix-affiche]").forEach(function (el) { el.textContent = euros(c.total); });
+      document.querySelectorAll("[data-libelle-court]").forEach(function (el) {
+        el.textContent = c.remise ? "Pack, " + euros(c.economie) + " d'économie" : taille;
+      });
     };
-    tailles.forEach(function (t) { t.addEventListener("change", majTaille); });
-    majTaille();
+
+    document.querySelectorAll('input[name="taille"], input[name="sommier"]').forEach(function (i) {
+      i.addEventListener("change", function () {
+        maj();
+        var ok = document.querySelector("[data-ajout-ok]");
+        if (ok) ok.hidden = true;
+      });
+    });
+    maj();
+
+    document.querySelectorAll("[data-ajouter]").forEach(function (bouton) {
+      bouton.addEventListener("click", function () {
+        var d = dernierCalcul, c = d.calcul;
+        var article = {
+          id: Date.now(),
+          titre: c.remise ? "Pack Hélios + " + SOMMIERS[d.cleSommier].nom : "Matelas Hélios",
+          image: "https://www.mondial-literie.fr/79-home_default/helios.jpg",
+          lignes: c.lignes, remise: c.remise, offerts: c.offerts, separes: c.separes, total: c.total, economie: c.economie
+        };
+        var liste = lirePanier(); liste.push(article); ecrirePanier(liste);
+        var ok = document.querySelector("[data-ajout-ok]");
+        if (ok) { ok.hidden = false; }
+        if (window.matchMedia("(max-width: 760px)").matches && ok) ok.scrollIntoView({ block: "center" });
+      });
+    });
+  }
+
+  /* ---------- Page panier ---------- */
+  var zonePanier = document.querySelector("[data-panier]");
+  if (zonePanier) {
+    var afficherPanier = function () {
+      var liste = lirePanier();
+      var resume = document.querySelector("[data-panier-resume]");
+      if (!liste.length) {
+        zonePanier.innerHTML = '<div class="panier-vide"><h2>Votre panier est vide</h2><p class="intro">Découvrez nos matelas, et profitez du pack matelas + sommier : -10 % et 2 oreillers offerts.</p><a class="btn btn--etoile" href="matelas.html">Voir nos matelas</a></div>';
+        resume.hidden = true;
+        return;
+      }
+      resume.hidden = false;
+      zonePanier.innerHTML = liste.map(function (a) {
+        return '<article class="article-panier">' +
+          '<img src="' + a.image + '" alt="" width="289" height="199">' +
+          '<div class="article-panier__corps">' +
+            '<h2 class="h3">' + a.titre + '</h2>' +
+            '<ul class="pack__lignes pack__lignes--simple">' +
+              a.lignes.map(function (l) { return '<li><span>' + l.libelle + '</span><span>' + euros(l.prix) + '</span></li>'; }).join("") +
+              (a.remise ? '<li class="pack__remise"><span>Remise pack -10 %</span><span>-' + euros(a.remise) + '</span></li>' : "") +
+              a.offerts.map(function (o) { return '<li class="pack__offert"><span>' + o.libelle + '</span><span><s>' + euros(o.valeur) + '</s> Offerts</span></li>'; }).join("") +
+            '</ul>' +
+            '<div class="article-panier__pied"><button class="lien-bouton" type="button" data-retirer="' + a.id + '">Retirer</button><strong class="prix">' + euros(a.total) + '</strong></div>' +
+          '</div>' +
+        '</article>';
+      }).join("");
+
+      var separes = 0, total = 0, remises = 0, offerts = 0;
+      liste.forEach(function (a) {
+        separes += a.separes; total += a.total; remises += a.remise;
+        a.offerts.forEach(function (o) { offerts += o.valeur; });
+      });
+      var economie = arrondi(remises + offerts);
+      resume.querySelector("[data-r-separes]").textContent = euros(arrondi(separes));
+      resume.querySelector("[data-r-remises]").textContent = remises ? "-" + euros(arrondi(remises)) : euros(0);
+      resume.querySelector("[data-r-offerts]").textContent = offerts ? euros(offerts) + " offerts" : "—";
+      resume.querySelector("[data-r-total]").textContent = euros(arrondi(total));
+      var eco = resume.querySelector("[data-r-economie]");
+      eco.hidden = economie === 0;
+      eco.querySelector("strong").textContent = euros(economie);
+
+      // demande envoyée au magasin par e-mail (aucun paiement en ligne)
+      var corps = "Bonjour,\n\nJe souhaite commander :\n\n" + liste.map(function (a) {
+        return "- " + a.titre + " : " + a.lignes.map(function (l) { return l.libelle; }).join(" + ") +
+          (a.offerts.length ? " + " + a.offerts.map(function (o) { return o.libelle + " offerts"; }).join(", ") : "") +
+          " = " + euros(a.total);
+      }).join("\n") + "\n\nTotal : " + euros(arrondi(total)) + "\n\nMon nom :\nMon téléphone :\nMa commune de livraison :\n\nMerci de me rappeler pour confirmer la livraison et le règlement.";
+      resume.querySelector("[data-commander-mail]").href = "mailto:mliteriechinon@gmail.com?subject=" +
+        encodeURIComponent("Commande depuis le site") + "&body=" + encodeURIComponent(corps);
+    };
+    zonePanier.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-retirer]");
+      if (!b) return;
+      var id = Number(b.getAttribute("data-retirer"));
+      ecrirePanier(lirePanier().filter(function (a) { return a.id !== id; }));
+      afficherPanier();
+    });
+    afficherPanier();
   }
 
   /* ---------- Guide « 3 questions » ---------- */
